@@ -1,4 +1,4 @@
-$jsmess_deps = ["git", "openjdk-6-jdk", "libsdl1.2debian", "libsdl1.2-dev", "libsdl-ttf2.0-0", "libfontconfig1-dev", "libsdl-ttf2.0-dev", "gtk+-2.0", "gconf2"]
+$jsmess_deps = ["git", "openjdk-6-jdk", "libsdl1.2debian", "libsdl1.2-dev", "libsdl-ttf2.0-0", "libfontconfig1-dev", "libsdl-ttf2.0-dev", "gtk+-2.0", "gconf2", "clang-3.2"]
 
 $clang_version = "3.2"
 $clang_dir = "clang+llvm-${clang_version}-x86-linux-ubuntu-12.04"
@@ -45,13 +45,6 @@ class jsmess {
         source => "/vagrant/puppet/files/dot.emscripten"
     }
     
-    file { "/home/vagrant/.bash_profile":
-        owner => vagrant,
-        group => vagrant,
-        mode => 664,
-        source => "/vagrant/puppet/files/dot.bash_profile"
-    }
-
     vcsrepo { "/home/vagrant/src/jsmess":
       alias => "git-clone-jsmess",
       ensure => latest,
@@ -82,21 +75,6 @@ class jsmess {
        target => '/vagrant/games',
        require => Vcsrepo['git-clone-jsmess'],
        force => true,
-    }
-
-    exec { "/usr/bin/wget ${clang_url}":
-        alias => "wget-clang-llvm",
-        cwd => "/home/vagrant/src",
-        creates => "/home/vagrant/src/${clang_filename}",
-        environment => ["PWD=/home/vagrant/src", "HOME=/home/vagrant"],
-    }
-
-    exec { "/bin/tar -zxf ${clang_filename}":
-        alias => "untar-clang-llvm",
-        cwd => "/home/vagrant/src",
-        environment => ["PWD=/home/vagrant/src", "HOME=/home/vagrant"],
-        creates => "/home/vagrant/src/${clang_dir}",
-        require => Exec["wget-clang-llvm"]
     }
 
 }
