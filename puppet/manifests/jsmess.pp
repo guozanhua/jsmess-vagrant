@@ -1,13 +1,4 @@
-$jsmess_deps = ["git", "openjdk-6-jdk", "libsdl1.2debian", "libsdl1.2-dev", "libsdl-ttf2.0-0", "libfontconfig1-dev", "libsdl-ttf2.0-dev", "gtk+-2.0", "gconf2", "clang-3.2"]
-
-$clang_version = "3.2"
-$clang_dir = "clang+llvm-${clang_version}-x86-linux-ubuntu-12.04"
-$clang_filename = "${clang_dir}.tar.gz"
-$clang_url = "http://llvm.org/releases/${clang_version}/${clang_filename}"
-
-class { 'nodejs':
-  version => 'stable',
-}
+$jsmess_deps = ["git", "openjdk-6-jdk", "libsdl1.2debian", "libsdl1.2-dev", "libsdl-ttf2.0-0", "libfontconfig1-dev", "libsdl-ttf2.0-dev", "gtk+-2.0", "gconf2", "nodejs", "clang-3.2"]
 
 class vcsrepo { 
   
@@ -83,7 +74,6 @@ group { "puppet":
   ensure => "present",
 }
 
-include nodejs
 include vcsrepo
 include jsmess
 
